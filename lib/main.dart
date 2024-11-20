@@ -51,6 +51,9 @@ class Home extends HookWidget {
     );
 
     return Scaffold(
+      appBar: AppBar(
+        title: const Text('Glints Dynamic Links'),
+      ),
       body: LayoutBuilder(
         builder: (context, constraints) {
           // Decide layout based on available width
