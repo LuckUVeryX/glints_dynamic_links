@@ -33,7 +33,7 @@ jobs:
           flutter config --enable-web
 
       - name: 🛠️ Build Web
-        run: flutter build web --release -t lib/main.dart --base-href /glints_dynamic_link/ --wasm
+        run: flutter build web --release -t lib/main.dart --base-href /glints_dynamic_links/ --wasm
 
       - name: 🤖 Configure Github Actions
         run: |
