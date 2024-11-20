@@ -32,11 +32,17 @@ class Home extends HookWidget {
     useEffect(
       () {
         void listener() {
-          final encodedLink = Uri.encodeFull(
-            '${linkController.text}${inAppParam.value ? '&inapp=1' : ''}',
-          );
+          final uri = Uri.tryParse(linkController.text);
+          if (uri == null) return;
+          final url = uri.replace(
+            queryParameters: {
+              ...uri.queryParameters,
+              if (inAppParam.value) 'inapp': '1',
+            },
+          ).toString();
+          final encoded = Uri.encodeFull(url);
           dynamicLinkController.text =
-              'https://glintsapp.page.link/?apn=com.glints.candidate&isi=1613169954&ibi=com.glints.candidate&link=$encodedLink';
+              'https://glintsapp.page.link/?apn=com.glints.candidate&isi=1613169954&ibi=com.glints.candidate&link=$encoded';
         }
 
         listener.call();
