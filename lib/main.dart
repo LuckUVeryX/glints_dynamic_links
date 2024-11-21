@@ -42,7 +42,7 @@ class Home extends HookWidget {
           ).toString();
           final encoded = Uri.encodeFull(url);
           dynamicLinkController.text =
-              'https://glintsapp.page.link/?apn=com.glints.candidate&isi=1613169954&ibi=com.glints.candidate&link=$encoded';
+              'https://dynamic-link.glints.com/page/?apn=com.glints.candidate&isi=1613169954&ibi=com.glints.candidate&link=$encoded';
         }
 
         listener.call();
