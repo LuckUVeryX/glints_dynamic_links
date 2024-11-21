@@ -62,7 +62,7 @@ class Home extends HookWidget {
       ),
       body: Center(
         child: ConstrainedBox(
-          constraints: const BoxConstraints(maxWidth: 640),
+          constraints: const BoxConstraints(maxWidth: 768),
           child: Padding(
             padding: const EdgeInsets.all(16),
             child: Column(
