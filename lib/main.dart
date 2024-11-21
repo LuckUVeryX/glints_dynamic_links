@@ -60,88 +60,79 @@ class Home extends HookWidget {
       appBar: AppBar(
         title: const Text('Glints Dynamic Links'),
       ),
-      body: LayoutBuilder(
-        builder: (context, constraints) {
-          // Decide layout based on available width
-          final isWideScreen = constraints.maxWidth > 600;
-
-          return Center(
-            child: Padding(
-              padding: const EdgeInsets.all(16),
-              child: Flex(
-                direction: isWideScreen ? Axis.horizontal : Axis.vertical,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Flexible(
-                    child: TextField(
-                      autofocus: true,
-                      maxLines: null,
-                      controller: linkController,
-                      decoration: const InputDecoration(
-                        labelText: 'Link',
-                      ),
-                    ),
+      body: Center(
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(maxWidth: 640),
+          child: Padding(
+            padding: const EdgeInsets.all(16),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                TextField(
+                  autofocus: true,
+                  maxLines: null,
+                  controller: linkController,
+                  decoration: const InputDecoration(
+                    labelText: 'Link',
                   ),
-                  const SizedBox.square(dimension: 16),
-                  Flexible(
-                    child: HookBuilder(
-                      builder: (context) {
-                        final uri = Uri.tryParse(
-                          useValueListenable(dynamicLinkController).text,
-                        );
+                ),
+                const SizedBox.square(dimension: 16),
+                HookBuilder(
+                  builder: (context) {
+                    final uri = Uri.tryParse(
+                      useValueListenable(dynamicLinkController).text,
+                    );
 
-                        return TextField(
-                          maxLines: null,
-                          readOnly: true,
-                          controller: dynamicLinkController,
-                          decoration: InputDecoration(
-                            labelText: 'Dynamic Link',
-                            suffix: IconButton(
-                              onPressed: uri == null
-                                  ? null
-                                  : () {
-                                      launchUrl(
-                                        uri,
-                                        mode: LaunchMode.externalApplication,
-                                      );
-                                    },
-                              icon: const Icon(Icons.launch),
-                            ),
+                    return TextField(
+                      maxLines: null,
+                      readOnly: true,
+                      controller: dynamicLinkController,
+                      decoration: InputDecoration(
+                        labelText: 'Dynamic Link',
+                        suffix: IconButton(
+                          onPressed: uri == null
+                              ? null
+                              : () {
+                                  launchUrl(
+                                    uri,
+                                    mode: LaunchMode.externalApplication,
+                                  );
+                                },
+                          icon: const Icon(Icons.launch),
+                        ),
+                      ),
+                      onTap: () async {
+                        final messenger = ScaffoldMessenger.of(context);
+                        await Clipboard.setData(
+                          ClipboardData(
+                            text: dynamicLinkController.text,
                           ),
-                          onTap: () async {
-                            final messenger = ScaffoldMessenger.of(context);
-                            await Clipboard.setData(
-                              ClipboardData(
-                                text: dynamicLinkController.text,
-                              ),
-                            );
-                            messenger.showSnackBar(
-                              const SnackBar(
-                                content: Text('Copied to clipboard'),
-                              ),
-                            );
-                          },
+                        );
+                        messenger.showSnackBar(
+                          const SnackBar(
+                            content: Text('Copied to clipboard'),
+                          ),
                         );
                       },
+                    );
+                  },
+                ),
+                const SizedBox.square(dimension: 16),
+                Column(
+                  children: [
+                    Switch(
+                      value: inAppParam.value,
+                      onChanged: (value) {
+                        inAppParam.value = value;
+                      },
                     ),
-                  ),
-                  const SizedBox(height: 8),
-                  Column(
-                    children: [
-                      Switch(
-                        value: inAppParam.value,
-                        onChanged: (value) {
-                          inAppParam.value = value;
-                        },
-                      ),
-                      const Text('inapp'),
-                    ],
-                  ),
-                ],
-              ),
+                    const Text('inapp'),
+                  ],
+                ),
+              ],
             ),
-          );
-        },
+          ),
+        ),
       ),
     );
   }
