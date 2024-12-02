@@ -59,6 +59,18 @@ class Home extends HookWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Glints Dynamic Links'),
+        actions: [
+          TextButton(
+            onPressed: () {
+              launchUrl(
+                Uri.parse(
+                  'https://github.com/LuckUVeryX/glints_dynamic_links',
+                ),
+              );
+            },
+            child: const Text('GitHub'),
+          ),
+        ],
       ),
       body: Center(
         child: ConstrainedBox(
